@@ -1,76 +1,90 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-
 using namespace std;
 
-class ciagi {
-public:	
-ifstream filein;
-ofstream fileout;
+class file{
 
-	vector<int> liczby;
+public:
+	ifstream fileIn;
+	ofstream fileOut;
 
-	int ilosc_c, max_r, roznica, liczba, dl_ciagu;
-
-	bool js_arytmetyczny;
-
-	ciagi(){
-		filein.open("ciagi.txt");
-		fileout.open("wynik1.txt");
-	}
-	
-	~ciagi(){
-		filein.close();
-		fileout.close();
-	}
-
-	void dow(){
-	
-	while(!filein.eof()){
-		
-		filein>>dl_ciagu;
-			
-			for(int i=0; i<dl_ciagu; i++){
-				filein>>liczba;
-				liczby.push_back(liczba);
-			}
-			
-		roznica=liczby[1]-liczby[0];
-		
-		js_arytmetyczny=true;
-		
-			for(int i=0; i+1<dl_ciagu; i++){
-				if(roznica!= liczby[i+1]-liczby[i]){
-					js_arytmetyczny=false;
-				}
-				
-			}
-		if(js_arytmetyczny){
-			ilosc_c++;
-				if(max_r<roznica){
-					max_r=roznica;
-			}
-	
-		}
-		
-		liczby.clear();
-		
-		
-	}
-	
-	cout<<ilosc_c<<endl;
-	cout<<max_r;
-	
-		
-	}
-	
+	file();
+	~file();
 };
 
-int main(int argc, char** argv) {
+file::file(){
+	fIn.open("C:\\zle.txt");
+	fOut.open("C:\\wynik.txt");
+}
+
+file::~file(){
+	fileIn.close();
+	fileOut.close();
+}
+
+class ciagi{
 	
-ciagi c1;
-c1.dow();	
+private:
+	file f;
+	vector <int> ciag;
+	vector <int> r;
+	vector <int> zle;
+		
+public:
+	void zaladuj();
+	void wypisz();
+};
+
+void ciagi::zaladuj(){
+	int dlugosc;
+	int liczba;
+	int dobreR;
+	
+while(!f.fileIn.eof()){
+	f.fileIn>>dlugosc;
+	for(int i=0;i<dlugosc;i++){
+	f.fileIn>>liczba;
+	ciag.push_back(liczba);
+	}
+	for(int i=0;i<4;i++){
+		r.push_back(ciag[i+1]-ciag[i]);
+	}
+	if(r[0]==r[1]){
+		dobreR=r[0];
+	} 
+	else if(r[1]==r[2]){
+		dobreR=r[1];
+	} 
+	else if(r[2]==r[3]){
+		dobreR=r[2];
+	}
+	else if(r[3]==r[0]){
+		dobreR=r[3];
+	}
+	for(int i = 0;i<dlugosc;i++){
+		if(ciag[i]+dobreR!=ciag[i+1]){
+			zle.push_back(ciag[i+1]);
+			break;
+		}
+	}
+ciag.clear();
+r.clear();
+	}
+
+	
+}
+
+void ciagi::wypisz(){
+	for(int i=0;izle.size()-1;i++){
+		f.fOut<<i+1<<":"<<zle[i]<<endl;
+	}
+}
+
+int main(int argc, char** argv) {
+	ciagi a;
+	a.zaladuj();
+	a.wypisz();
 	
 	return 0;
 }
